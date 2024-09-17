@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {
     Alert,
     AlertIcon,
@@ -15,12 +15,10 @@ import {
     useToast,
     VStack,
 } from "@chakra-ui/react";
-import { CheckIcon, CopyIcon } from "@chakra-ui/icons";
-import { TonWallet } from "@okxweb3/coin-ton";
+import {TonWallet} from "@okxweb3/coin-ton";
 import AddressOutput from "./AddressOutput";
 import Box100 from './Box100';
-import { errorToast, successToast } from "./toast";
-
+import {errorToast, successToast} from "./toast";
 const BOUNCEABLE = 'bounceable';
 const UNBOUNCEABLE = 'unbounceable';
 
@@ -37,7 +35,7 @@ const TonPrivateKey: React.FC<GeneratePrivateKeyProps> = (props) => {
     const [network, setNetwork] = useState('mainnet');
     const [addressBounceable, setAddressBounceable] = useState(UNBOUNCEABLE);
 
-    const { hasCopied: hasCopiedPrivKey, onCopy: onCopyPrivKey } = useClipboard(props.privateKey);
+    const {hasCopied: hasCopiedPrivKey, onCopy: onCopyPrivKey} = useClipboard(props.privateKey);
 
     const updateAddress = async () => {
         const privateKey = props.privateKey;
@@ -52,8 +50,8 @@ const TonPrivateKey: React.FC<GeneratePrivateKeyProps> = (props) => {
     };
 
     const getAddress = async (privateKey: string) => {
-        const { address: a } = await props.wallet.getNewAddress({ privateKey });
-        const { address: addr } = await props.wallet.parseAddress({ address: a });
+        const {address: a} = await props.wallet.getNewAddress({privateKey});
+        const {address: addr} = await props.wallet.parseAddress({address: a});
         return addr.toString({
             urlSafe: true,
             bounceable: addressBounceable === BOUNCEABLE,
@@ -78,7 +76,7 @@ const TonPrivateKey: React.FC<GeneratePrivateKeyProps> = (props) => {
 
     const handlePrivKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        const { value } = e.target;
+        const {value} = e.target;
         props.setPrivateKey(value);
     };
 
@@ -117,7 +115,7 @@ const TonPrivateKey: React.FC<GeneratePrivateKeyProps> = (props) => {
                             onClick={onCopyPrivKey}
                             size="sm"
                             variant="ghost"
-                            icon={hasCopiedPrivKey ? <CheckIcon /> : <CopyIcon />}
+                            icon={hasCopiedPrivKey ? '粘贴' : '复制'}
                             aria-label={hasCopiedPrivKey ? '已复制' : '复制'}
                         />
                     </InputRightElement>
@@ -137,7 +135,7 @@ const TonPrivateKey: React.FC<GeneratePrivateKeyProps> = (props) => {
                     </Button>
                 </Flex>
 
-                <AddressOutput address={address} />
+                <AddressOutput address={address}/>
             </VStack>
         </Box100>
     );
