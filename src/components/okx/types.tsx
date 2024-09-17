@@ -1,7 +1,4 @@
 import {BaseWallet} from "@okxweb3/coin-base";
-import {BtcWallet, TBtcWallet} from "@okxweb3/coin-bitcoin";
-
-export type BitcoinWallets = BtcWallet | TBtcWallet
 export type utxoInput = {
     txId: string
     vOut: number
