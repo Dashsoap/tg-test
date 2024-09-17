@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
     Button,
     Heading,
@@ -7,10 +7,10 @@ import {
 } from "@chakra-ui/react";
 import Box100 from "./Box100";
 import FormInput from "./FormInput";
-import {TransactionFormProps, TonTxData} from "./types";
+import { TransactionFormProps, TonTxData } from "./types";
 import SignedOutput from "./SignedOutput";
 import FormCheckbox from "./FormCheckbox";
-import {errorToast, successToast} from "./toast";
+import { errorToast, successToast } from "./toast";
 
 
 const TonSignTx: React.FC<TransactionFormProps> = (props) => {
@@ -40,7 +40,7 @@ const TonSignTx: React.FC<TransactionFormProps> = (props) => {
     const [scroll, setScroll] = useState(false);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        props.wallet.signTransaction({privateKey: props.privateKey, data: txData})
+        props.wallet.signTransaction({ privateKey: props.privateKey, data: txData })
             .then((data: any) => {
                 setTx(data.boc)
                 setScroll(true);
@@ -55,16 +55,16 @@ const TonSignTx: React.FC<TransactionFormProps> = (props) => {
         <Box100 scroll={scroll} setScroll={setScroll}>
             <Heading marginBottom="5">签名交易</Heading>
             <VStack spacing={2} align="stretch" w={"100%"}>
-                <FormInput name={"to"} data={txData} setData={setTxData}/>
-                <FormInput name={"amount"} data={txData} setData={setTxData}/>
-                <FormInput name={"seqno"} data={txData} setData={setTxData}/>
-                <FormInput name={"decimal"} data={txData} setData={setTxData}/>
-                <FormInput name={"memo"} data={txData} setData={setTxData}/>
-                <FormCheckbox name={"toInit"} data={txData} setData={setTxData}/>
+                <FormInput name={"接收地址"} data={txData} setData={setTxData} />
+                <FormInput name={"数量"} data={txData} setData={setTxData} />
+                <FormInput name={"序列号"} data={txData} setData={setTxData} />
+                <FormInput name={"小数位"} data={txData} setData={setTxData} />
+                <FormInput name={"备注"} data={txData} setData={setTxData} />
+                <FormCheckbox name={"接收地址已初始化"} data={txData} setData={setTxData} />
                 <Button onClick={handleSubmit} type="submit" colorScheme="blue" width="full">
                     签名交易
                 </Button>
-                <SignedOutput name="签名交易结果" output={tx}/>
+                <SignedOutput name="签名交易结果" output={tx} />
             </VStack>
         </Box100>
     );
