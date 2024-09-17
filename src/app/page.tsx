@@ -1,28 +1,41 @@
 'use client';
-import {VStack} from "@chakra-ui/react";
-import {useState} from "react";
-import TonPrivateKey from "../components/okx/TonPrivateKey";
-import {TonWallet} from "@okxweb3/coin-ton";
-import TonSignTx from "../components/okx/TonSignTx";
-import TonSignJettonTx from "../components/okx/TonSignJettonTx";
-import {Section, Cell, Image, List} from '@telegram-apps/telegram-ui';
 
-import {Link} from '@/components/Link/Link';
+import { Section, Cell, Image, List } from '@telegram-apps/telegram-ui';
+
+import { Link } from '@/components/Link/Link';
 
 import tonSvg from './_assets/ton.svg';
 
 export default function Home() {
-
-    const [privateKey, setPrivateKey] =
-        useState("49c0722d56d6bac802bdf5c480a17c870d1d18bc4355d8344aa05390eb778280")
-    const wallet = new TonWallet()
-    return (
-        <List>
-            <Section>
-                <TonPrivateKey wallet={wallet} privateKey={privateKey} setPrivateKey={setPrivateKey}/>
-                <TonSignTx wallet={wallet} privateKey={privateKey}/>
-                <TonSignJettonTx wallet={wallet} privateKey={privateKey}/>
-            </Section>
-        </List>
-    );
+  return (
+    <List>
+      <Section
+        header='Features'
+        footer='You can use these pages to learn more about features, provided by Telegram Mini Apps and other useful projects'
+      >
+        <Link href='/ton-connect'>
+          <Cell
+            before={<Image src={tonSvg.src} style={{ backgroundColor: '#007AFF' }}/>}
+            subtitle='Connect your TON wallet'
+          >
+            TON Connect
+          </Cell>
+        </Link>
+      </Section>
+      <Section
+        header='Application Launch Data'
+        footer='These pages help developer to learn more about current launch information'
+      >
+        <Link href='/init-data'>
+          <Cell subtitle='User data, chat information, technical data'>Init Data</Cell>
+        </Link>
+        <Link href='/launch-params'>
+          <Cell subtitle='Platform identifier, Mini Apps version, etc.'>Launch Parameters</Cell>
+        </Link>
+        <Link href='/theme-params'>
+          <Cell subtitle='Telegram application palette information'>Theme Parameters</Cell>
+        </Link>
+      </Section>
+    </List>
+  );
 }

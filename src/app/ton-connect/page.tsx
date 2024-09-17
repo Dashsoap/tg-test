@@ -1,100 +1,28 @@
 'use client';
+import {VStack} from "@chakra-ui/react";
+import {useState} from "react";
+import TonPrivateKey from "../../components/okx/TonPrivateKey";
+import {TonWallet} from "@okxweb3/coin-ton";
+import TonSignTx from "../../components/okx/TonSignTx";
+import TonSignJettonTx from "../../components/okx/TonSignJettonTx";
+import {Section, Cell, Image, List} from '@telegram-apps/telegram-ui';
 
-import { useUtils } from '@telegram-apps/sdk-react';
-import { TonConnectButton, useTonWallet } from '@tonconnect/ui-react';
-import {
-  Avatar,
-  Cell,
-  List,
-  Navigation,
-  Placeholder,
-  Section,
-  Text,
-  Title,
-} from '@telegram-apps/telegram-ui';
+import {Link} from '@/components/Link/Link';
 
-import { DisplayData } from '@/components/DisplayData/DisplayData';
+import tonSvg from './_assets/ton.svg';
 
-import './styles.css';
+export default function Home() {
 
-export default function TONConnectPage() {
-  const wallet = useTonWallet();
-  const utils = useUtils();
-
-  if (!wallet) {
+    const [privateKey, setPrivateKey] =
+        useState("49c0722d56d6bac802bdf5c480a17c870d1d18bc4355d8344aa05390eb778280")
+    const wallet = new TonWallet()
     return (
-      <Placeholder
-        className='ton-connect-page__placeholder'
-        header='TON Connect'
-        description={
-          <>
-            <Text>
-              To display the data related to the TON Connect, it is required to connect your wallet
-            </Text>
-            <TonConnectButton className='ton-connect-page__button'/>
-          </>
-        }
-      />
+        <List>
+            <Section>
+                <TonPrivateKey wallet={wallet} privateKey={privateKey} setPrivateKey={setPrivateKey}/>
+                <TonSignTx wallet={wallet} privateKey={privateKey}/>
+                <TonSignJettonTx wallet={wallet} privateKey={privateKey}/>
+            </Section>
+        </List>
     );
-  }
-
-  const {
-    account: { chain, publicKey, address },
-    device: {
-      appName,
-      appVersion,
-      maxProtocolVersion,
-      platform,
-      features,
-    },
-  } = wallet;
-
-  return (
-    <List>
-      {'imageUrl' in wallet && (
-        <>
-          <Section>
-            <Cell
-              before={
-                <Avatar src={wallet.imageUrl} alt='Provider logo' width={60} height={60}/>
-              }
-              after={<Navigation>About wallet</Navigation>}
-              subtitle={wallet.appName}
-              onClick={(e) => {
-                e.preventDefault();
-                utils.openLink(wallet.aboutUrl);
-              }}
-            >
-              <Title level='3'>{wallet.name}</Title>
-            </Cell>
-          </Section>
-          <TonConnectButton className='ton-connect-page__button-connected'/>
-        </>
-      )}
-      <DisplayData
-        header='Account'
-        rows={[
-          { title: 'Address', value: address },
-          { title: 'Chain', value: chain },
-          { title: 'Public Key', value: publicKey },
-        ]}
-      />
-      <DisplayData
-        header='Device'
-        rows={[
-          { title: 'App Name', value: appName },
-          { title: 'App Version', value: appVersion },
-          { title: 'Max Protocol Version', value: maxProtocolVersion },
-          { title: 'Platform', value: platform },
-          {
-            title: 'Features',
-            value: features
-              .map(f => typeof f === 'object' ? f.name : undefined)
-              .filter(v => v)
-              .join(', '),
-          },
-        ]}
-      />
-    </List>
-  );
-};
+}
